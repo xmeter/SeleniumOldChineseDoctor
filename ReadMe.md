@@ -8,9 +8,13 @@ Selenium老中医
 1. Selenium IDE其实是一系列的firefox插件的组合，如果从firefox内去搜索的话，会发现有很多的结果，而selenium官方其实是提供了整个工具的组合，访问http://docs.seleniumhq.org/download/ 就能够获取。
 2. 下载完成后，直接将xpi文件拖到Firefox浏览器内就能成功安装，然后在Firefox的菜单下面的开发者选项当中就能看到。
 3. 在成功安装以后，我们还需要做一些设置，打开selenium IDE，options -> options ->General ->Enable experimental features，然后在ide输入你需要录制的页面的url，同时在浏览器地址栏输入你要录制页面的url，就可以开始录制了。注意：Selenium IDE和QTP是不一样的，不是你在工具内输入url，就会调用浏览器开始录制。
+
+
 如何判断使用的XPath或者css selector是否正确
 ----------------------------------------
 很多人都想在写代码之前先验证自己所写的selector是否正确，Firefox和Chrome就提供了这样的功能。Firefox下你可以使用XPath Checker或者Firepath这两种插件，而在Chrome里面你则可以使用在开发者工具的控制台中输入以$s开头来验证css selector或者以$x来验证XPath。
+
+
 处理NotConnectedException
 -------------------------
 很多人都会感到很疑惑，怎么我的脚本丢了一段时间就不能跑了呢，跑的时候就报这个错误：
@@ -20,6 +24,8 @@ Selenium老中医
     *** WARN addons.repository: Search failed when adding add-ons to cache
 
 这其实的根本原因是在于你的Firefox的版本和webdriver的版本不匹配，因为Firefox默认是自动升级的。如果碰到这种情况的话，要么去升级你的webdriver，要么就去降低你的Firefox的[版本](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/)。***在做自动化之前请关掉Firefox的自动升级。***
+
+
 处理弹出框
 ---------
 怎样处理这种[弹出框](http://www.w3schools.com/js/tryit.asp?filename=tryjs_alert)呢？
