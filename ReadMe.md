@@ -39,3 +39,29 @@ Selenium老中医
     wait.until(ExpectedConditions.alertIsPresent());
     driver.switchTo().alert().accept();
     driver.switchTo().defaultContent(); 
+
+Chrome浏览器输入汉字乱码
+----------------------
+chrome浏览器输入文字乱码的主要原因是由于chrome浏览器的版本与你当前的selenium版本不匹配，因此有两种解决办法：
+
+1. 升级你的selenium版本
+2. 降低浏览器版本
+
+但是就现在的情况来讲，chrome版本在30以上就很少会见到这种情况了。
+
+处理类似tomcat登录界面的弹出框的方法
+--------------------------------
+tomcat登录界面弹出框实际上不是一个dom对象，因此selenium并不能直接操作它。这时候我们就需要借助其他方式。![pop-up](http://i.stack.imgur.com/opWtk.jpg)
+
+方法一：http://username:password@yoururl
+
+方法二：
+1. 打开Firefox
+2. 在地址栏当中输入 `about:config`
+3. 找到 `network.http.phishy-userpass-length`选项，如果没找到，可以手动创建一个 (鼠标右键->新建->数字): 选项`network.http.phishy-userpass-length`，值为 `255` 
+完成了这些操作以后，使用以下代码创建一个driver:
+
+    FirefoxProfile profile = new FirefoxProfile();
+    profile.SetPreference("network.http.phishy-userpass-length", 255);
+    profile.SetPreference("network.automatic-ntlm-auth.trusted-uris", "YOUR HOST ADDRESS HERE");
+    _driver = new FirefoxDriver(profile);
