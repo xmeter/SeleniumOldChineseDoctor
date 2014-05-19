@@ -111,11 +111,11 @@ IE: 对于IE来讲，我们同样需要[iedriver](http://selenium-release.storag
 
 1. 手动去关掉ie的保护模式，并且调整安全等级为低。
 2. 通过代码来设置安全等级：
-	```
-    DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
-	ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
-	WebDriver driver = new InternetExplorerDriver(ieCapabilities);
-    ```
+
+    	DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+    	ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+    	WebDriver driver = new InternetExplorerDriver(ieCapabilities);
+
 虽然有两种方法，但是方法一不一定次次管用，所以推荐使用方法二。
 
 火狐通行证的处理方法
