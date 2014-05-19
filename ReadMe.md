@@ -65,3 +65,62 @@ tomcat登录界面弹出框实际上不是一个dom对象，因此selenium并不
     profile.SetPreference("network.http.phishy-userpass-length", 255);
     profile.SetPreference("network.automatic-ntlm-auth.trusted-uris", "YOUR HOST ADDRESS HERE");
     _driver = new FirefoxDriver(profile);
+
+怎样操作那种只显示几秒的提示信息
+----------------------------
+很多前端工程师都比较爱使用那种显示几秒的浮动特效的提示信息，效果虽然很华丽，但是也给自动化工作提升了难度。因此要操作这类提示信息，我们需要使用显示等待，大概的代码如下：
+
+    WebDriverWait wait = new WebDriverWait(driver, 15);
+    wait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath("//div[@id='timeLeft']"), "Time left: 7 seconds")); 
+切换frame
+---------
+通读selenium2.0的API可以发现，我们有3种方法来切换frame：
+
+- frame(index)
+- frame(Name of Frame [or] Id of the frame
+- frame(WebElement frameElement)
+
+而切换frame的顺序则必须从外到内一级一级递进，不过要想跳出所有frame则只需要执行`driver.switchTo().defaultContent()`。具体可以参见[这儿](http://assertselenium.com/2013/02/22/handling-iframes-using-webdriver/)。
+
+在IE上怎样对多选框进行操作
+-----------------------
+有的时候，在ie上使用`.click()`对checkbox进行操作不起作用，我们可以借助模拟一个空格键的方式来达到我们勾选这个checkbox的目的：
+
+    String currChkboxValue = checkbox.getAttribute("checked");
+    if(currChkboxValue==null || "false".equalsIgnoreCase(currChkboxValue))
+    {
+    if(checkbox instanceof InternetExplorerElement)
+    {
+    checkbox.sendKeys(Keys.SPACE);
+    }
+    else
+    checkbox.click();
+    
+    }
+
+
+关于打开浏览器的问题的集中解决
+--------------------------
+从Selenium的官方文档当中，我们看到，不论是什么浏览器，好像是new一个对应类型的driver就可以打开浏览器了，但是实际使用中，我们往往会发现很多问题，那么我们就分浏览器来说说这些问题：
+
+Firefox: 对于firefox来讲，因为selenium最初就是基于firefox的，所以firefox是容易启动的。但是要注意的是，如果你的Firefox是安装在非默认路径下，那么你就需要去设置firefox.exe的所在路径`System.setProperty("webdriver.firefox.bin","你的firefox.exe所在路径");  `,如果是默认路径下，你只需要new一个firefoxdriver就可以了。
+
+Chrome： 对于chrome来讲，我们需要一个[chromedriver](http://chromedriver.storage.googleapis.com/index.html)来驱动浏览器,在下载完成后，设置你的chromedriver所在的路径 `System.setProperty("webdriver.chrome.driver", "你的chromedriver所在路径"); `，然后再去new一个chromedriver。
+
+IE: 对于IE来讲，我们同样需要[iedriver](http://selenium-release.storage.googleapis.com/index.html)来驱动浏览器。但是，单单有iedriver，我们并不一定能成功调用IE.从IE7时代开始，ie着重提升了安全性，这就导致我们的程序有时候并不能成功调用ie。针对此种情况，有两种解决办法：
+
+1. 手动去关掉ie的保护模式，并且调整安全等级为低。
+2. 通过代码来设置安全等级：
+	
+    DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+    ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+    WebDriver driver = new InternetExplorerDriver(ieCapabilities);
+
+虽然有两种方法，但是方法一不一定次次管用，所以推荐使用方法二。
+
+火狐通行证的处理方法
+------------------
+很多人使用的Firefox是中国版的Firefox，这个版本在默认的profile里面添加了一些插件，因此，每当你new一个Firefoxdriver的时候，它就会弹出一个火狐通行证，这个很让人烦恼。那么怎么解决呢，方法有二：
+
+1. 新建一个Firefox的profile，在每次new driver的时候，都调用这个profile。
+2. 使用国际版的[Firefox](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/)。
