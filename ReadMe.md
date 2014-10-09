@@ -55,6 +55,8 @@ tomcat登录界面弹出框实际上不是一个dom对象，因此selenium并不
 
 方法一：http://username:password@yoururl
 
+***注意***：1.该方法只适用于Firefox 2.该方法在Firefox19以后已经不适用了
+
 方法二：
 1. 打开Firefox
 2. 在地址栏当中输入 `about:config`
