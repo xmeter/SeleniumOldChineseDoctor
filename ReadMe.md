@@ -161,5 +161,13 @@ Sendkeys报错的问题
 	    ChromeOptions options = new ChromeOptrions();
     	options.addArguments("test-type");
 
+使用driver.quit()时，弹出Plugin Container for firefox已停止工作导致程序挂起
+-----------------------------------------------------------------------
 
-	
+![pop-up](http://www.geekpics.net/images/2014/10/09/RSLtdn1.jpg)
+这种问题一般是处在较新版本的Firefox上面，这是Firefox本身的一个bug，因此，处理这个问题的方法有以下几种：
+
+1. 降低Firefox的版本
+2. 禁用Plugin Container这个插件，在Firefox的工具->附加组件->插件里面可以找到该插件，并禁用它。
+
+![Plugin](http://www.geekpics.net/images/2014/10/09/g354QerT.jpg)
