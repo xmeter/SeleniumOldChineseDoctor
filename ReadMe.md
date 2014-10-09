@@ -146,3 +146,18 @@ Sendkeys报错的问题
 
 1. 降低你的jdk版本
 2. 将你要传入的字符串转化为字符串数组
+
+
+解决Chrome启动时出现安全警告tip的问题
+---------------------------------
+![pop-up](http://www.geekpics.net/images/2014/10/09/BQt2d9.jpg)
+这个问题是由于chrome在较新的版本内加入了新的安全认证机制，而chromedriver还没来得及加上，所以，有以下方式可以解决：
+
+1. 把chromedriver更新到最新的版本[2.11](http://chromedriver.storage.googleapis.com/index.html?path=2.11/)
+2. 通过以下代码：
+
+	    ChromeOptions options = new ChromeOptrions();
+    	options.addArguments("test-type");
+
+
+	
